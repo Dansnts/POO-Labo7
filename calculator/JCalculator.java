@@ -33,6 +33,7 @@ public class JCalculator extends JFrame
   // Mise a jour de l'interface apres une operation (jList et jStack)
   private void update()
   {
+    jNumber.setText(State.getState().getValueString());
     // Modifier une zone de texte, JTextField.setText(string nom)
     // Modifier un composant liste, JList.setListData(Object[] tableau)
   }
@@ -90,8 +91,8 @@ public class JCalculator extends JFrame
 
     // Boutons 1-9
     for (int i = 1; i < 10; i++) 
-      addOperatorButton(String.valueOf(i), (i - 1) % 3, 4 - (i - 1) / 3, 
-			Color.BLUE, null);
+      addOperatorButton(String.valueOf(i), (i - 1) % 3, 4 - (i - 1) / 3,
+			Color.BLUE, new Digit(i));
     // Bouton 0
     addOperatorButton("0", 0, 5, Color.BLUE, null);
 

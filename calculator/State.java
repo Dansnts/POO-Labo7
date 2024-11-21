@@ -2,6 +2,8 @@ package calculator;
 
 public class State {
 
+    private static State instance;
+
     private String value;
     private String memory;
     private String error;
@@ -9,9 +11,19 @@ public class State {
     private boolean hasError;
     private boolean isMutable = true;
 
+    private State() {
+        clearError();
+    }
+
     /**
      * @brief Clears the error state.
      */
+    public static State getState(){
+        if(instance == null)
+            return new State();
+
+        return instance;
+    }
     private void clearError() {
         value = "";
         error = "";
@@ -167,5 +179,4 @@ public class State {
         }
         return value;
     }
-
 }
