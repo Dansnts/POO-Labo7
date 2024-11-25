@@ -19,12 +19,12 @@ public class State {
      * @brief Clears the error state.
      */
     public static State getState(){
-        if(instance == null)
-            return new State();
-
+        if(instance == null) {
+            instance = new State();
+        }
         return instance;
     }
-    private void clearError() {
+    public void clearError() {
         value = "";
         error = "";
         hasError = false;
