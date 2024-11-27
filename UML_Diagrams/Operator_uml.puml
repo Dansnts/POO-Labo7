@@ -1,5 +1,6 @@
 @startuml
-skinparam linetype ortho
+skinparam linetype polyline
+skinparam groupInheritance 2
 package "Operators" {
   abstract class Operator {
     {abstract} void execute()

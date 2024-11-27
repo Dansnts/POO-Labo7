@@ -52,7 +52,6 @@ public class State {
         error = "";
         hasError = false;
         isMutable = true;
-
     }
 
     public boolean isStackEmpty(){

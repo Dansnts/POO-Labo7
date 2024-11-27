@@ -1,6 +1,0 @@
-@startuml
-!include Operator_uml.puml
-!include State_uml.puml
-!include JCalculator_uml.puml
-
-@enduml

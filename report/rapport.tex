@@ -67,7 +67,10 @@
 	
 	\section{Choix de conception}
 	\subsection{Operator}
+	Pour la classe Operator nous avons décider de faire une sous-classes abstraites pour chaque operation, par exemple avec Digit() qui crée un entier selon le bouton pressé et l'affiche directement avec la fonction update().
+	
 	\subsection{State}
+	La modification des valeurs et de la Stack, s'éffectuent dans la classe state, les méthodes publiques sont celles qui permettent d'accèeder directement à la manipulation de notre variable String value, qui sera affichée sur l'applicaiton Calculatrice. Les fonction pour verifier si les objets existent ou bien si leur valeur est nulles sont implémentées dans notre classe aussi. De sméthode sprivates existement pour par exemple demande au state de vérifier l'état du Stack sans devoir passer directement par l'objet State lui même.
 	
 	\section{Modélisation UML}
 	\subsection{Diagramme des classes}
