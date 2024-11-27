@@ -188,4 +188,7 @@ public class State {
     public void setWaitingForNextOperand(boolean waiting) {
         waitingForNextOperand = waiting;
     }
+
+    public boolean hasOperandOnStack() {return !stack.isEmpty();
+    }
 }
