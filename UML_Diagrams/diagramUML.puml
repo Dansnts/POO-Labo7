@@ -1,0 +1,32 @@
+@startuml
+entity Légendes #palegreen ##[dashed]green{
+- private
+-private method()
+~ package
+~ package method()
++ public
++ public method()
+}
+entity JCalculator{
+--
+- update() : void
+}
+entity State{
+--
+}
+entity Stack<T>{
+--
+}
+entity JButton{
+--
++ actionPerformed (e : ActionEvent): void
+}
+entity Operator{
+~execute
+}
+JCalculator "0..1" --> "1" State : possède
+State "0..1"--> "1" Stack : valeurs
+JCalculator "0..1" -- "1..*" JButton : contient
+JButton "0..1" -->"1" Operator : utilise
+Operator "0..*"-->"1" State : manipule
+@enduml
