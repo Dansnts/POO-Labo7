@@ -1,7 +1,5 @@
 package calculator;
 
-
-
 public class State {
 
     private static State instance;
@@ -11,12 +9,11 @@ public class State {
     private String error = "";
     private boolean hasError = false;
     private boolean isMutable = true;
-    private double operand1 = 0;
     private Operator currentOperator = null;
     private boolean waitingForNextOperand = false;
     private boolean clearedOnNextInput = false;
 
-    private State() {}
+    public State() {}
 
     private Stack<Double> stack = new Stack<>();
 
@@ -84,7 +81,6 @@ public class State {
     }
 
     public void prepareForNextOperand() {
-        operand1 = value();
         clearedOnNextInput = true;
         waitingForNextOperand = true;
     }
@@ -93,26 +89,6 @@ public class State {
         if (!hasError) {
             double val = value();
             value = val > 0 ? "-" + value : value.substring(1);
-        }
-    }
-
-    public void reciprocal() {
-        if (value() == 0) {
-            setError("cannot divide by 0");
-        } else {
-            setValue(1 / value());
-        }
-    }
-
-    public void square() {
-        setValue(Math.pow(value(), 2));
-    }
-
-    public void squareRoot() {
-        if (value() < 0) {
-            setError("cannot take square root of negative value");
-        } else {
-            setValue(Math.sqrt(value()));
         }
     }
 
@@ -135,10 +111,6 @@ public class State {
 
     public String getValueString() {
         return hasError ? error : (value.isEmpty() ? "0" : value);
-    }
-
-    public String getMemory() {
-        return memory;
     }
 
     public double value() {

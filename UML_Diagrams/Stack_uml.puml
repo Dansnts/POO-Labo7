@@ -1,22 +1,25 @@
 @startuml Stack
 
 class Stack<T> {
-  - elements: T[]
-  - size: int
-  - static INITIAL_CAPACITY: int = 10
+  - T[] elements
+  - int size = 0
+  - static final int INITIAL_CAPACITY = 10
+- void resize(int newCapacity)
+
   + Stack()
-  + push(item: T): void
-  + pop(): T
-  + toString(): String
-  + toArray(): T[]
-  + iterator(): Iterator<T>
-  - resize(newCapacity: int): void
+  + void push(T item)
+  + T pop()
+  + String toString()
+  + T[] toArray()
+  + Iterator<T> iterator()
+  + boolean isEmpty() : boolean
+  + int size() : int
 }
 
 class StackIterator {
-  - current: int
-  + hasNext(): boolean
-  + next(): T
+  - int current
+  + boolean hasNext() : boolean
+  + T next() : T
 }
 
 Stack "1" *-- "1" StackIterator : uses

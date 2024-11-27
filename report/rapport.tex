@@ -89,7 +89,6 @@
 	\tableofcontents
 	\newpage
 	
-	\section{Hypothèses de travail}
 	
 	\section{Choix de conception}
 \subsection{Operator}
@@ -127,16 +126,94 @@ La classe \texttt{State} est conçue de manière extensible, permettant d'ajoute
 \subsection{Diagramme des classes}
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1\textwidth]{../UML_Diagrams/diagram_final.jpeg}
+	\includegraphics[width=1.1\textwidth]{../UML_Diagrams/diagram_final.jpeg}
 	\caption{Implémentation de la modélisation de la Calculatrice}
 \end{figure}
 
-\section{Tests}
-\subsection{Addition}
-\subsection{Soustraction}
-\subsection{Division}
-\subsection{Multiplication}	
+\pagebreak
 
-\subsection{Clear}
+\section{Tests}
+
+Les tests suivants ont été réalisés pour valider les fonctionnalités principales de la calculatrice. 
+
+\subsection{Stack}
+\begin{itemize}
+	\item \textbf{Étape 1 : Empiler des valeurs et tester} \\
+	Valeurs empilées : 10.0 et 5.0. \\
+	Résultat attendu : \texttt{[5.0, 10.0]} \\
+	Résultat obtenu : \texttt{[5.0, 10.0]} \\
+	\textbf{Test réussi.}
+\end{itemize}
+
+\subsection{Addition}
+\begin{itemize}
+	\item \textbf{Étape 2 : Addition (10 + 5)} \\
+	Opération : Addition des deux valeurs empilées. \\
+	Résultat attendu : \texttt{[15.0]} \\
+	Résultat obtenu : \texttt{[15.0]} \\
+	\textbf{Test réussi.}
+\end{itemize}
+
+\subsection{Multiplication}
+\begin{itemize}
+	\item \textbf{Étape 3 : Empiler une nouvelle valeur et multiplier} \\
+	Valeur ajoutée : 3.0. \\
+	Opération : Multiplication (15.0 * 3.0). \\
+	Résultat attendu : \texttt{[45.0]} \\
+	Résultat obtenu : \texttt{[45.0]} \\
+	\textbf{Test réussi.}
+\end{itemize}
+
+\subsection{Division}
+\begin{itemize}
+	\item \textbf{Étape 4 : Diviser par une nouvelle valeur} \\
+	Valeur ajoutée : 9.0. \\
+	Opération : Division (45.0 / 9.0). \\
+	Résultat attendu : \texttt{[5.0]} \\
+	Résultat obtenu : \texttt{[5.0]} \\
+	\textbf{Test réussi.}
+\end{itemize}
+
+\subsection{Opérations avancées}
+\begin{itemize}
+	\item \textbf{Étape 5 : Racine carrée} \\
+	Valeur ajoutée : 4.0. \\
+	Opération : Racine carrée de 4.0. \\
+	Résultat attendu : \texttt{[2.0, 5.0]} \\
+	Résultat obtenu : \texttt{[2.0, 5.0]} \\
+	\textbf{Test réussi.}
+	\\
+	\item \textbf{Étape 6 : Mise au carré} \\
+	Opération : Mise au carré du sommet de la pile (2.0). \\
+	Résultat attendu : \texttt{[4.0, 5.0]} \\
+	Résultat obtenu : \texttt{[4.0, 5.0]} \\
+	\textbf{Test réussi.}
+	\\
+	\item \textbf{Étape 7 : Inverse (1/x)} \\
+	Opération : Calcul de l'inverse (1/4.0). \\
+	Résultat attendu : \texttt{[0.25, 5.0]} \\
+	Résultat obtenu : \texttt{[0.25, 5.0]} \\
+	\textbf{Test réussi.}
+	\\
+	\item \textbf{Étape 8 : Combinaison complexe} \\
+	Valeur ajoutée : 2.0. \\
+	Opérations : Multiplication (0.25 * 2.0), ajout de 5.0, soustraction. \\
+	Résultat attendu : \texttt{[-4.5, 5.0]} \\
+	Résultat obtenu : \texttt{[-4.5, 5.0]} \\
+	\textbf{Test réussi.}
+\end{itemize}
+
+\subsection{Réinitialisation}
+\begin{itemize}
+	\item \textbf{Étape 9 : Réinitialisation de la pile} \\
+	Opération : Effacement complet de la pile. \\
+	Résultat attendu : \texttt{[]} \\
+	Résultat obtenu : \texttt{[]} \\
+	\textbf{Test réussi.}
+\end{itemize}
+
+\subsection{Résumé des résultats}
+Tous les tests ont été exécutés avec succès, validant ainsi les principales fonctionnalités de la calculatrice, y compris les opérations arithmétiques de base, les opérations avancées, et la gestion correcte de l'état interne.
+
 
 \end{document}

@@ -5,7 +5,8 @@ left to right direction
 package "Operators" {
   abstract class Operator {
     {abstract} void execute()
-    {abstract} double compute(double operand1, double operand2)
+    + void executeBinaryOperation(double operand1, double operand2, State state, BinaryOperation operation)
+    + double compute(double operand1, double operand2) : double
   }
 
   class BackSpace extends Operator {
@@ -34,9 +35,9 @@ package "Operators" {
     + void execute()
   }
 
-  abstract class BinaryOperation extends Operator {
+  abstract class UnaryOperation extends Operator {
+    + UnaryOperation(UnaryFunction operation)
     + void execute()
-    {abstract} double compute(double operand1, double operand2)
   }
 
   class ChangeSign extends Operator {
@@ -47,32 +48,37 @@ package "Operators" {
     + void execute()
   }
 
-  class Reciprocal extends Operator {
-    + void execute()
+  class Reciprocal extends UnaryOperation {
+    + Reciprocal()
   }
 
-  class Square extends Operator {
-    + void execute()
+  class Square extends UnaryOperation {
+    + Square()
   }
 
-  class SquareRoot extends Operator {
+  class SquareRoot extends UnaryOperation {
+    + SquareRoot()
+  }
+
+  abstract class BinaryOperation extends Operator {
     + void execute()
+    {abstract} double compute(double operand1, double operand2) : double
   }
 
   class Addition extends BinaryOperation {
-    + double compute(double operand1, double operand2)
+    + double compute(double operand1, double operand2) : double
   }
 
   class Subtraction extends BinaryOperation {
-    + double compute(double operand1, double operand2)
+    + double compute(double operand1, double operand2) : double
   }
 
   class Multiplication extends BinaryOperation {
-    + double compute(double operand1, double operand2)
+    + double compute(double operand1, double operand2) : double
   }
 
   class Division extends BinaryOperation {
-    + double compute(double operand1, double operand2)
+    + double compute(double operand1, double operand2) : double
   }
 
   class Enter extends Operator {

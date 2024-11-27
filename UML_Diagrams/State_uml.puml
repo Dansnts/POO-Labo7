@@ -1,50 +1,43 @@
 @startuml
 class State {
+    - static State instance
     - String value = ""
     - String memory = "0"
     - String error = ""
     - boolean hasError = false
     - boolean isMutable = true
-    - double operand1 = 0
     - Operator currentOperator = null
     - boolean waitingForNextOperand = false
     - boolean clearedOnNextInput = false
-    - private Stack<Double> stack = new Stack<>();
-    - private static State instance
+    - Stack<Double> stack = new Stack<>()
+    - String formatValue(double x) : String
+    - void clearStack()
 
-    + State() {static}
+    + State()
     + static State getState() : State
     + void clearError()
     + void appendValue(int x)
     + void appendDot()
     + void prepareForNextOperand()
     + void changeSign()
-    + void reciprocal()
-    + void square()
-    + void squareRoot()
     + void delLastValue()
     + void storeValue()
     + void recallValue()
     + String getValueString() : String
-    + String getMemory() : String
     + double value() : double
     + void setValue(double x)
-    - String formatValue(double x) : String
     + void setError(String errorMessage)
-    + void setOperand1(double operand1)
-    + double getOperand1() : double
     + void setCurrentOperator(Operator operator)
     + Operator getCurrentOperator() : Operator
     + boolean isWaitingForNextOperand() : boolean
     + void setWaitingForNextOperand(boolean waiting)
-    + void setClearedOnNextInput(boolean clearedOnNextInput)
     + boolean isStackEmpty() : boolean
     + void pushToStack(double value)
     + double popFromStack() : double
     + String stackToString() : String
     + Object[] stackToArray() : Object[]
     + void clear()
-    - void clearStack()
+    + int stackSize() : int
 }
 
 Operators --> State : "manipule"

@@ -35,7 +35,7 @@ public class Stack<T> implements Iterable<T> {
     // Obtenir une représentation en chaîne de caractères du contenu de la pile
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("Pile : [");
+        StringBuilder sb = new StringBuilder("[");
         for (int i = size - 1; i >= 0; i--) {
             sb.append(elements[i]);
             if (i > 0) sb.append(", ");
