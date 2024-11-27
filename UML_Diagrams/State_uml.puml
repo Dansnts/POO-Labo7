@@ -9,7 +9,10 @@ class State {
     - Operator currentOperator = null
     - boolean waitingForNextOperand = false
     - boolean clearedOnNextInput = false
-    + State()
+    - private Stack<Double> stack = new Stack<>();
+    - private static State instance
+
+    + State() {static}
     + static State getState() : State
     + void clearError()
     + void appendValue(int x)
@@ -35,6 +38,13 @@ class State {
     + boolean isWaitingForNextOperand() : boolean
     + void setWaitingForNextOperand(boolean waiting)
     + void setClearedOnNextInput(boolean clearedOnNextInput)
+    + boolean isStackEmpty() : boolean
+    + void pushToStack(double value)
+    + double popFromStack() : double
+    + String stackToString() : String
+    + Object[] stackToArray() : Object[]
+    + void clear()
+    - void clearStack()
 }
 
 Operators --> State : "manipule"

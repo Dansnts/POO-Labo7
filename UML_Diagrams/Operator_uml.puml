@@ -1,6 +1,7 @@
 @startuml
 skinparam linetype polyline
 skinparam groupInheritance 2
+left to right direction
 package "Operators" {
   abstract class Operator {
     {abstract} void execute()
@@ -78,23 +79,5 @@ package "Operators" {
     + void execute()
   }
 
-  Operator <|-- BackSpace
-  Operator <|-- ClearError
-  Operator <|-- Clear
-  Operator <|-- MemoryRecall
-  Operator <|-- MemoryStore
-  Operator <|-- Digit
-  Operator <|-- ChangeSign
-  Operator <|-- AppendDot
-  Operator <|-- Reciprocal
-  Operator <|-- Square
-  Operator <|-- SquareRoot
-  Operator <|-- BinaryOperation
-  Operator <|-- Enter
-
-  BinaryOperation <|-- Addition
-  BinaryOperation <|-- Subtraction
-  BinaryOperation <|-- Multiplication
-  BinaryOperation <|-- Division
 }
 @enduml

@@ -1,15 +1,41 @@
-\PassOptionsToPackage{svgnames}{xcolor}
 \documentclass[12pt, a4paper, onecolumn]{article} 
 \usepackage[utf8]{inputenc}
 \usepackage{fancyhdr}
 \usepackage{graphicx}
 \usepackage{geometry}
 \usepackage{float}
-\usepackage{multicol} % Ajout du paquet multicol pour gérer les colonnes
-\usepackage{lmodern}  % Latin Modern scalable font
-\usepackage[T1]{fontenc}  % Use T1 font encoding
-\usepackage{hyperref}  % Pour rendre la table des matières interactive
-\usepackage{pdfpages}
+\usepackage{multicol} 
+\usepackage{lmodern}  
+\usepackage[T1]{fontenc}  
+\usepackage{hyperref}  
+\usepackage[dvipsnames]{xcolor}  % Enable predefined colors
+\usepackage{listings, lstautogobble}
+\usepackage{listings}
+
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{magenta},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\ttfamily\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=2
+}
 
 % Réduire les marges
 \geometry{top=1.5cm, bottom=1.5cm, left=1.5cm, right=1.5cm}
@@ -66,15 +92,51 @@
 	\section{Hypothèses de travail}
 	
 	\section{Choix de conception}
-	\subsection{Operator}
-	Pour la classe Operator nous avons décider de faire une sous-classes abstraites pour chaque operation, par exemple avec Digit() qui crée un entier selon le bouton pressé et l'affiche directement avec la fonction update().
-	
-	\subsection{State}
-	La modification des valeurs et de la Stack, s'éffectuent dans la classe state, les méthodes publiques sont celles qui permettent d'accèeder directement à la manipulation de notre variable String value, qui sera affichée sur l'applicaiton Calculatrice. Les fonction pour verifier si les objets existent ou bien si leur valeur est nulles sont implémentées dans notre classe aussi. De sméthode sprivates existement pour par exemple demande au state de vérifier l'état du Stack sans devoir passer directement par l'objet State lui même.
-	
-	\section{Modélisation UML}
-	\subsection{Diagramme des classes}
+\subsection{Operator}
+
+\begin{flushleft}
+	Pour la classe \texttt{Operator}, nous avons décidé de créer une hiérarchie en concevant des sous-classes abstraites pour chaque type d'opération. Cela permet de structurer et d'optimiser les opérations selon le principe de la séparation des responsabilités. Par exemple, la méthode \texttt{Digit()} est dédiée à la création d'un entier correspondant au bouton numérique pressé. Une fois le chiffre saisi, il est directement affiché via la méthode publique \texttt{update()}. Cette approche rend le code plus modulaire et facilite l'ajout de nouvelles fonctionnalités ou d'opérations dans le futur.
+\linebreak
+
+Chaque sous-classe implémente les comportements spécifiques à une opération donnée. Cela inclut les opérateurs arithmétiques de base (\texttt{Add}, \texttt{Subtract}, \texttt{Multiply}, \texttt{Divide}) ainsi que d'autres fonctionnalités comme la gestion des pourcentages, des puissances ou des opérations spécifiques définies par l'utilisateur.
+\end{flushleft}
+
+\subsection{State}
+
+\begin{flushleft}
+	La classe \texttt{State} est responsable de la gestion des valeurs et de la pile (\texttt{Stack}). Elle joue un rôle central dans la manipulation des données et leur affichage sur l'application Calculatrice. Voici ses principales responsabilités :
+\end{flushleft}
+
+\begin{itemize}
+\item \textbf{Gestion de la valeur affichée :} \\
+La variable publique \texttt{value}, de type \texttt{String}, représente le contenu actuellement affiché sur l'écran de la calculatrice. Les méthodes publiques de \texttt{State} permettent d'accéder directement à cette variable et de la modifier en fonction des actions effectuées par l'utilisateur.
+
+\item \textbf{Vérifications et gestion des erreurs :} \\
+Des méthodes spécifiques permettent de vérifier si un objet existe ou si sa valeur est \texttt{null}. Cela garantit une manipulation sécurisée des données et évite les erreurs inattendues lors de l'exécution.
+
+\item \textbf{Interaction avec la pile (\texttt{Stack}) :} \\
+La pile est utilisée pour gérer les opérations complexes nécessitant un stockage temporaire de valeurs intermédiaires. Des méthodes privées sont mises en place pour permettre à la classe \texttt{State} de vérifier et de manipuler l'état de la \texttt{Stack} sans exposer directement son contenu. Cette encapsulation renforce la sécurité et la robustesse de la logique.
+
+\item \textbf{Extensions et modularité :} \\
+La classe \texttt{State} est conçue de manière extensible, permettant d'ajouter de nouvelles fonctionnalités ou de modifier le comportement existant sans compromettre la stabilité du système. Par exemple, des méthodes pourraient être ajoutées pour prendre en charge des formats d'entrée plus complexes (nombres décimaux, exposants, etc.).
+\end{itemize}
+
 
 	
-	
+\section{Modélisation UML}
+\subsection{Diagramme des classes}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{../UML_Diagrams/diagram_final.jpeg}
+	\caption{Implémentation de la modélisation de la Calculatrice}
+\end{figure}
+
+\section{Tests}
+\subsection{Addition}
+\subsection{Soustraction}
+\subsection{Division}
+\subsection{Multiplication}	
+
+\subsection{Clear}
+
 \end{document}

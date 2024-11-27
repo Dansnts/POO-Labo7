@@ -1,5 +1,5 @@
 @startuml JCalculator
-
+left to right direction
 class JCalculator {
   - empty: String[]
   - jNumber: JTextField

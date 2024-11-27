@@ -131,7 +131,6 @@ public class State {
     public void recallValue() {
         value = memory;
         isMutable = false;
-        clearError();
     }
 
     public String getValueString() {
