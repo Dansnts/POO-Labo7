@@ -1,20 +1,38 @@
+/**
+ * @author Aubry Antoine
+ * @author Faria dos Santos Dani Tiago
+ */
+
 package calculator;
 
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+/**
+ * Classe représentant une pile générique.
+ *
+ * @param <T> Le type d'éléments stockés dans la pile.
+ */
 public class Stack<T> implements Iterable<T> {
     private T[] elements;
     private int size = 0;
     private static final int INITIAL_CAPACITY = 10;
 
+    /**
+     * Constructeur de la classe Stack.
+     * Initialise la pile avec une capacité initiale définie.
+     */
     @SuppressWarnings("unchecked")
     public Stack() {
         elements = (T[]) new Object[INITIAL_CAPACITY];
     }
 
-    // Méthode pour empiler un élément
+    /**
+     * Empile un élément sur la pile.
+     *
+     * @param item L'élément à empiler.
+     */
     public void push(T item) {
         if (size == elements.length) {
             resize(2 * elements.length);  // double la capacité si nécessaire
@@ -22,7 +40,12 @@ public class Stack<T> implements Iterable<T> {
         elements[size++] = item;
     }
 
-    // Méthode pour désempiler un élément
+    /**
+     * Désempile un élément de la pile.
+     *
+     * @return L'élément désemparé.
+     * @throws NoSuchElementException si la pile est vide.
+     */
     public T pop() {
         if (size == 0) {
             throw new NoSuchElementException("La pile est vide");
@@ -32,7 +55,11 @@ public class Stack<T> implements Iterable<T> {
         return item;
     }
 
-    // Obtenir une représentation en chaîne de caractères du contenu de la pile
+    /**
+     * Retourne une représentation sous forme de chaîne de caractères du contenu de la pile.
+     *
+     * @return Une chaîne représentant les éléments de la pile.
+     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("[");
@@ -44,35 +71,65 @@ public class Stack<T> implements Iterable<T> {
         return sb.toString();
     }
 
-    // Obtenir un tableau représentant l’état actuel de la pile
+    /**
+     * Retourne un tableau représentant l'état actuel de la pile.
+     *
+     * @return Un tableau contenant les éléments de la pile.
+     */
     public T[] toArray() {
         return Arrays.copyOfRange(elements, 0, size);
     }
 
-    // Itérateur pour parcourir les éléments de la pile
+    /**
+     * Retourne un itérateur pour parcourir les éléments de la pile.
+     *
+     * @return Un itérateur sur les éléments de la pile.
+     */
     @Override
     public Iterator<T> iterator() {
         return new StackIterator();
     }
 
-    // Méthode pour vérifier si la pile est vide
+    /**
+     * Vérifie si la pile est vide.
+     *
+     * @return true si la pile est vide, sinon false.
+     */
     public boolean isEmpty() {
         return size == 0;
     }
 
-    public int size() { return size;
+    /**
+     * Retourne la taille actuelle de la pile.
+     *
+     * @return Le nombre d'éléments dans la pile.
+     */
+    public int size() {
+        return size;
     }
 
-
-    // Classe interne pour l'itérateur
+    /**
+     * Classe interne représentant un itérateur pour la pile.
+     */
     private class StackIterator implements Iterator<T> {
         private int current = size - 1;
 
+        /**
+         * Vérifie s'il reste des éléments à parcourir dans la pile.
+         *
+         * @return true s'il reste des éléments, sinon false.
+         */
         @Override
         public boolean hasNext() {
             return current >= 0;
         }
 
+        /**
+         * Retourne l'élément suivant dans la pile.
+         *
+         * @return L'élément suivant.
+         * @throws NoSuchElementException si aucun élément n'est disponible.
+         */
         @Override
         public T next() {
             if (!hasNext()) {
@@ -82,9 +139,13 @@ public class Stack<T> implements Iterable<T> {
         }
     }
 
+    /**
+     * Redimensionne la capacité du tableau d'éléments.
+     *
+     * @param newCapacity La nouvelle capacité du tableau.
+     */
     @SuppressWarnings("unchecked")
     private void resize(int newCapacity) {
         elements = Arrays.copyOf(elements, newCapacity);
     }
 }
-

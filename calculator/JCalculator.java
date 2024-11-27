@@ -1,3 +1,8 @@
+/**
+ * @author Aubry Antoine
+ * @author Faria dos Santos Dani Tiago
+ */
+
 package calculator;
 
 import java.awt.Color;
@@ -13,42 +18,64 @@ import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-//import java.awt.event.*;
-
+/**
+ * @class JCalculator
+ * @brief Classe qui implémente l'interface graphique d'une calculatrice.
+ *
+ * La classe JCalculator permet de créer une interface utilisateur pour une calculatrice
+ * avec diverses opérations arithmétiques et gestion de la pile.
+ */
 public class JCalculator extends JFrame
 {
-  // Tableau representant une pile vide
+  /**
+   * @brief Tableau représentant une pile vide.
+   */
   private static final String[] empty = { "< empty stack >" };
 
-  // Zone de texte contenant la valeur introduite ou resultat courant
+  /**
+   * @brief Zone de texte contenant la valeur introduite ou le résultat courant.
+   */
   private final JTextField jNumber = new JTextField("0");
 
-  // Composant liste representant le contenu de la pile
+  /**
+   * @brief Composant liste représentant le contenu de la pile.
+   */
   private final JList jStack = new JList(empty);
 
-  // Contraintes pour le placement des composants graphiques
+  /**
+   * @brief Contraintes pour le placement des composants graphiques.
+   */
   private final GridBagConstraints constraints = new GridBagConstraints();
 
-
-  // Mise a jour de l'interface apres une operation (jList et jStack)
+  /**
+   * @brief Met à jour l'interface graphique après une opération.
+   *
+   * Cette méthode met à jour la valeur dans la zone de texte jNumber et le contenu de la pile affichée dans jStack.
+   */
   private void update()
   {
     jNumber.setText(State.getState().getValueString());
-    //jStack.setListData(...);
-    // Modifier une zone de texte, JTextField.setText(string nom)
-    // Modifier un composant liste, JList.setListData(Object[] tableau)
 
     Object[] stackArray = State.getState().stackToArray(); // Récupère les éléments de la pile
-    jStack.setListData(stackArray); // Mettez à jour la JList avec les éléments actuels de la pile
+    jStack.setListData(stackArray); // Met à jour la JList avec les éléments actuels de la pile
 
     if(State.getState().isStackEmpty())
       jStack.setListData(empty);
   }
 
-  // Ajout d'un bouton dans l'interface et de l'operation associee,
-  // instance de la classe Operation, possedeant une methode execute()
-  private void addOperatorButton(String name, int x, int y, Color color, 
-				 final Operator operator)
+  /**
+   * @brief Ajoute un bouton à l'interface et associe une opération.
+   *
+   * @param name Nom du bouton.
+   * @param x Position horizontale dans la grille.
+   * @param y Position verticale dans la grille.
+   * @param color Couleur du texte du bouton.
+   * @param operator Instance de l'opérateur associé au bouton.
+   *
+   * Cette méthode crée un bouton avec un opérateur donné. Lorsqu'on clique sur le bouton, l'opérateur est exécuté et l'interface est mise à jour.
+   */
+  private void addOperatorButton(String name, int x, int y, Color color,
+                                 final Operator operator)
   {
     JButton b = new JButton(name);
     b.setForeground(color);
@@ -56,12 +83,18 @@ public class JCalculator extends JFrame
     constraints.gridy = y;
     getContentPane().add(b, constraints);
     b.addActionListener(e -> {
-	operator.execute();
-	update();
-      });
+      operator.execute();
+      update();
+    });
   }
 
-  public JCalculator() 
+  /**
+   * @brief Constructeur de la classe JCalculator.
+   *
+   * Ce constructeur initialise l'interface utilisateur de la calculatrice en configurant
+   * la disposition et en ajoutant les différents boutons nécessaires.
+   */
+  public JCalculator()
   {
     super("JCalculator");
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -99,7 +132,7 @@ public class JCalculator extends JFrame
     // Boutons 1-9
     for (int i = 1; i < 10; i++)
       addOperatorButton(String.valueOf(i), (i - 1) % 3, 4 - (i - 1) / 3,
-			Color.BLUE, new Digit(i));
+              Color.BLUE, new Digit(i));
     // Bouton 0
     addOperatorButton("0", 0, 5, Color.BLUE, new Digit(0));
 

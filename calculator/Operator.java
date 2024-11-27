@@ -1,8 +1,27 @@
+/**
+ * @author Aubry Antoine
+ * @author Faria dos Santos Dani Tiago
+ */
+
 package calculator;
 
+/**
+ * Classe abstraite représentant un opérateur.
+ */
 abstract class Operator {
+    /**
+     * Méthode abstraite d'exécution, à implémenter dans les sous-classes.
+     */
     abstract void execute();
 
+    /**
+     * Exécute une opération binaire en utilisant les deux opérandes données.
+     *
+     * @param operand1 Premier opérande.
+     * @param operand2 Deuxième opérande.
+     * @param state    L'état actuel de la calculatrice.
+     * @param operation L'opération binaire à exécuter.
+     */
     protected void executeBinaryOperation(double operand1, double operand2, State state, BinaryOperation operation) {
         try {
             double result = operation.compute(operand1, operand2);
@@ -12,14 +31,29 @@ abstract class Operator {
         }
     }
 
+    /**
+     * Calcule une opération binaire entre deux opérandes.
+     *
+     * @param operand1 Premier opérande.
+     * @param operand2 Deuxième opérande.
+     * @return Le résultat du calcul.
+     */
     double compute(double operand1, double operand2) {
         return 0;
     }
 }
 
+/**
+ * Classe représentant un chiffre dans la calculatrice.
+ */
 class Digit extends Operator {
     int digit;
 
+    /**
+     * Constructeur de Digit.
+     *
+     * @param digit Le chiffre à représenter.
+     */
     Digit(int digit) {
         this.digit = digit;
     }
@@ -37,6 +71,9 @@ class Digit extends Operator {
     }
 }
 
+/**
+ * Classe représentant l'opérateur de suppression du dernier chiffre.
+ */
 class BackSpace extends Operator {
     @Override
     void execute() {
@@ -44,6 +81,9 @@ class BackSpace extends Operator {
     }
 }
 
+/**
+ * Classe représentant l'opérateur de suppression de l'erreur.
+ */
 class ClearError extends Operator {
     @Override
     void execute() {
@@ -51,6 +91,9 @@ class ClearError extends Operator {
     }
 }
 
+/**
+ * Classe représentant l'opérateur de réinitialisation complète.
+ */
 class Clear extends Operator {
     @Override
     void execute() {
@@ -58,6 +101,9 @@ class Clear extends Operator {
     }
 }
 
+/**
+ * Classe représentant l'opérateur de rappel de la mémoire.
+ */
 class MemoryRecall extends Operator {
     @Override
     void execute() {
@@ -65,6 +111,9 @@ class MemoryRecall extends Operator {
     }
 }
 
+/**
+ * Classe représentant l'opérateur de stockage de la valeur en mémoire.
+ */
 class MemoryStore extends Operator {
     @Override
     void execute() {
@@ -72,6 +121,9 @@ class MemoryStore extends Operator {
     }
 }
 
+/**
+ * Classe représentant l'opérateur de changement de signe.
+ */
 class ChangeSign extends Operator {
     @Override
     void execute() {
@@ -79,6 +131,9 @@ class ChangeSign extends Operator {
     }
 }
 
+/**
+ * Classe représentant l'opérateur d'ajout d'un point décimal.
+ */
 class AppendDot extends Operator {
     @Override
     void execute() {
@@ -86,9 +141,17 @@ class AppendDot extends Operator {
     }
 }
 
+/**
+ * Classe abstraite pour les opérations unaires.
+ */
 abstract class UnaryOperation extends Operator {
     private final UnaryFunction operation;
 
+    /**
+     * Constructeur d'opération unaire.
+     *
+     * @param operation La fonction unaire à appliquer.
+     */
     UnaryOperation(UnaryFunction operation) {
         this.operation = operation;
     }
@@ -104,7 +167,6 @@ abstract class UnaryOperation extends Operator {
         double operand = state.popFromStack();
         try {
             double result = operation.apply(operand);
-            //state.pushToStack(result);
             state.setValue(result);
         } catch (ArithmeticException e) {
             state.setError(e.getMessage());
@@ -112,18 +174,27 @@ abstract class UnaryOperation extends Operator {
         state.prepareForNextOperand();
     }
 
+    /**
+     * Interface fonctionnelle pour les fonctions unaires.
+     */
     @FunctionalInterface
     interface UnaryFunction {
         double apply(double operand);
     }
 }
 
+/**
+ * Classe représentant l'opération de carré.
+ */
 class Square extends UnaryOperation {
     Square() {
         super(operand -> operand * operand);
     }
 }
 
+/**
+ * Classe représentant l'opération de racine carrée.
+ */
 class SquareRoot extends UnaryOperation {
     SquareRoot() {
         super(operand -> {
@@ -133,6 +204,9 @@ class SquareRoot extends UnaryOperation {
     }
 }
 
+/**
+ * Classe représentant l'opération de réciproque (1/x).
+ */
 class Reciprocal extends UnaryOperation {
     Reciprocal() {
         super(operand -> {
@@ -142,7 +216,9 @@ class Reciprocal extends UnaryOperation {
     }
 }
 
-
+/**
+ * Classe abstraite pour les opérations binaires.
+ */
 abstract class BinaryOperation extends Operator {
     @Override
     void execute() {
@@ -157,9 +233,19 @@ abstract class BinaryOperation extends Operator {
         state.prepareForNextOperand();
     }
 
+    /**
+     * Calcule une opération binaire entre deux opérandes.
+     *
+     * @param operand1 Premier opérande.
+     * @param operand2 Deuxième opérande.
+     * @return Le résultat du calcul.
+     */
     abstract double compute(double operand1, double operand2);
 }
 
+/**
+ * Classe représentant l'opération d'addition.
+ */
 class Addition extends BinaryOperation {
     @Override
     double compute(double operand1, double operand2) {
@@ -167,6 +253,9 @@ class Addition extends BinaryOperation {
     }
 }
 
+/**
+ * Classe représentant l'opération de soustraction.
+ */
 class Subtraction extends BinaryOperation {
     @Override
     double compute(double operand1, double operand2) {
@@ -174,6 +263,9 @@ class Subtraction extends BinaryOperation {
     }
 }
 
+/**
+ * Classe représentant l'opération de multiplication.
+ */
 class Multiplication extends BinaryOperation {
     @Override
     double compute(double operand1, double operand2) {
@@ -181,6 +273,9 @@ class Multiplication extends BinaryOperation {
     }
 }
 
+/**
+ * Classe représentant l'opération de division.
+ */
 class Division extends BinaryOperation {
     @Override
     double compute(double operand1, double operand2) {
@@ -191,6 +286,9 @@ class Division extends BinaryOperation {
     }
 }
 
+/**
+ * Classe représentant l'opérateur Enter.
+ */
 class Enter extends Operator {
     @Override
     void execute() {

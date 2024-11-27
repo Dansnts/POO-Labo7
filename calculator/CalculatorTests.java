@@ -1,3 +1,8 @@
+/**
+ * @author Aubry Antoine
+ * @author Faria dos Santos Dani Tiago
+ */
+
 package calculator;
 
 public class CalculatorTests {
