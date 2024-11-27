@@ -1,44 +1,42 @@
 @startuml
 class State {
-    - static State instance
-    - String value = ""
-    - String memory = "0"
-    - String error = ""
-    - boolean hasError = false
-    - boolean isMutable = true
-    - Operator currentOperator = null
-    - boolean waitingForNextOperand = false
-    - boolean clearedOnNextInput = false
-    - Stack<Double> stack = new Stack<>()
-    - String formatValue(double x) : String
-    - void clearStack()
+    - instance : State
+    - value : String
+    - memory : String
+    - error : String
+    - hasError : boolean
+    - isMutable : boolean
+    - currentOperator : Operator
+    - waitingForNextOperand : boolean
+    - clearedOnNextInput : boolean
+    - stack : Stack<Double>
+    - formatValue(double x)
+    - clearStack()
 
     + State()
-    + static State getState() : State
-    + void clearError()
-    + void appendValue(int x)
-    + void appendDot()
-    + void prepareForNextOperand()
-    + void changeSign()
-    + void delLastValue()
-    + void storeValue()
-    + void recallValue()
-    + String getValueString() : String
-    + double value() : double
-    + void setValue(double x)
-    + void setError(String errorMessage)
-    + void setCurrentOperator(Operator operator)
-    + Operator getCurrentOperator() : Operator
-    + boolean isWaitingForNextOperand() : boolean
-    + void setWaitingForNextOperand(boolean waiting)
-    + boolean isStackEmpty() : boolean
-    + void pushToStack(double value)
-    + double popFromStack() : double
-    + String stackToString() : String
-    + Object[] stackToArray() : Object[]
-    + void clear()
-    + int stackSize() : int
+    + getState()
+    + clearError()
+    + appendValue(int x)
+    + appendDot()
+    + prepareForNextOperand()
+    + changeSign()
+    + delLastValue()
+    + storeValue()
+    + recallValue()
+    + getValueString()
+    + double value()
+    + setValue(double x)
+    + setError(String errorMessage)
+    + setCurrentOperator(Operator operator)
+    + getCurrentOperator()
+    + boolean isWaitingForNextOperand()
+    + setWaitingForNextOperand(boolean waiting)
+    + isStackEmpty()
+    + pushToStack(double value)
+    + popFromStack()
+    + String stackToString()
+    + stackToArray()
+    + clear()
+    + stackSize()
 }
-
-Operators --> State : "manipule"
 @enduml

@@ -4,48 +4,48 @@ skinparam groupInheritance 2
 left to right direction
 package "Operators" {
   abstract class Operator {
-    {abstract} void execute()
-    + void executeBinaryOperation(double operand1, double operand2, State state, BinaryOperation operation)
-    + double compute(double operand1, double operand2) : double
+    {abstract} execute()
+    + executeBinaryOperation(double operand1, double operand2, State state, BinaryOperation operation)
+    + compute(double operand1, double operand2)
   }
 
   class BackSpace extends Operator {
-    + void execute()
+    + execute()
   }
 
   class ClearError extends Operator {
-    + void execute()
+    + execute()
   }
 
   class Clear extends Operator {
-    + void execute()
+    + execute()
   }
 
   class MemoryRecall extends Operator {
-    + void execute()
+    + execute()
   }
 
   class MemoryStore extends Operator {
-    + void execute()
+    + execute()
   }
 
   class Digit extends Operator {
     - int digit
     + Digit(int digit)
-    + void execute()
+    + execute()
   }
 
   abstract class UnaryOperation extends Operator {
     + UnaryOperation(UnaryFunction operation)
-    + void execute()
+    + execute()
   }
 
   class ChangeSign extends Operator {
-    + void execute()
+    + execute()
   }
 
   class AppendDot extends Operator {
-    + void execute()
+    + execute() 
   }
 
   class Reciprocal extends UnaryOperation {
@@ -61,28 +61,28 @@ package "Operators" {
   }
 
   abstract class BinaryOperation extends Operator {
-    + void execute()
-    {abstract} double compute(double operand1, double operand2) : double
+    + execute()
+    {abstract} compute(double operand1, double operand2)
   }
 
   class Addition extends BinaryOperation {
-    + double compute(double operand1, double operand2) : double
+    + compute(double operand1, double operand2)
   }
 
   class Subtraction extends BinaryOperation {
-    + double compute(double operand1, double operand2) : double
+    + compute(double operand1, double operand2)
   }
 
   class Multiplication extends BinaryOperation {
-    + double compute(double operand1, double operand2) : double
+    + compute(double operand1, double operand2)
   }
 
   class Division extends BinaryOperation {
-    + double compute(double operand1, double operand2) : double
+    + compute(double operand1, double operand2)
   }
 
   class Enter extends Operator {
-    + void execute()
+    + execute()
   }
 
 }

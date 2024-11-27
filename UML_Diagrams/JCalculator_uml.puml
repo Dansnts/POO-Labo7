@@ -1,35 +1,36 @@
 @startuml JCalculator
 left to right direction
 class JCalculator {
-  - static final String[] empty = { "< empty stack >" }
+  - empty : String[]
 
-  - JTextField jNumber = new JTextField("0")
-  - JList jStack = new JList(empty)
-  - GridBagConstraints constraints = new GridBagConstraints()
+  - jNumber : JTextField
+  - jStack : JList
+  - constraints : GridBagConstraints
 
   + JCalculator()
-  + void update()
-  + void addOperatorButton(String name, int x, int y, Color color, Operator operator)
+  + update()
+  + addOperatorButton(String name, int x, int y, Color color, Operator operator)
 }
 
-JCalculator ..> Operator : uses
+
 JCalculator ..> State : uses
-JCalculator ..> JButton : creates
+JCalculator ..> JButton : has
 JCalculator ..> JTextField : creates
 JCalculator ..> JList : creates
 JCalculator ..> GridBagConstraints : uses
+JButton ..> Operator : uses
 
 class JTextField {
-  + void setText(String text)
-  + void setEditable(boolean editable)
-  + void setBackground(Color color)
-  + void setHorizontalAlignment(int alignment)
+  + setText(String text)
+  + setEditable(boolean editable)
+  + setBackground(Color color)
+  + setHorizontalAlignment(int alignment)
 }
 
 class JList {
-  + void setListData(Object[] data)
-  + void setFont(Font font)
-  + void setVisibleRowCount(int count)
+  + setListData(Object[] data)
+  + setFont(Font font)
+  + setVisibleRowCount(int count)
 }
 
 class GridBagConstraints {
@@ -42,7 +43,7 @@ class GridBagConstraints {
 }
 
 abstract class Operator {
-  + void execute()
+  + execute()
 }
 
 JCalculator --|> JFrame : extends
