@@ -4,26 +4,25 @@ public class State {
 
     private static State instance;
 
-    private String value;
-    private String memory;
-    private String error;
-
-    private boolean hasError;
+    private String value = "";
+    private String memory = "0";
+    private String error = "";
+    private boolean hasError = false;
     private boolean isMutable = true;
+    private double operand1 = 0;
+    private Operator currentOperator = null;
+    private boolean waitingForNextOperand = false;
+    private boolean clearedOnNextInput = false;
 
-    private State() {
-        clearError();
-    }
+    private State() {}
 
-    /**
-     * @brief Clears the error state.
-     */
-    public static State getState(){
-        if(instance == null) {
+    public static State getState() {
+        if (instance == null) {
             instance = new State();
         }
         return instance;
     }
+
     public void clearError() {
         value = "";
         error = "";
@@ -31,152 +30,122 @@ public class State {
         isMutable = true;
     }
 
-    /**
-     * @brief Appends the provided digit to the current value.
-     *
-     * @param x The digit to be appended
-     */
     public void appendValue(int x) {
+        if (clearedOnNextInput) {
+            value = "";
+            clearedOnNextInput = false;
+        }
         value += x;
     }
 
-    /**
-     * @brief Appends a decimal point to the current value.
-     */
     public void appendDot() {
-
-        // If the value is empty, adds "0" before the decimal point
-        if (value.isEmpty())
-            value += "0";
-
-        // If the value doesn't contain a decimal point, appends it
-        if (!value.contains("."))
-            value += ".";
+        if (value.isEmpty()) value += "0";
+        if (!value.contains(".")) value += ".";
     }
 
-    /**
-     * @brief Changes the sign of the current value.
-     */
+    public void prepareForNextOperand() {
+        operand1 = value();
+        clearedOnNextInput = true;
+        waitingForNextOperand = true;
+    }
+
     public void changeSign() {
-        double val = value();
         if (!hasError) {
-            if (val > 0)
-                value = "-" + value;
-            else { // val < 0
-                // Removes the negative sign if negative
-                value = value.substring(1);
-            }
+            double val = value();
+            value = val > 0 ? "-" + value : value.substring(1);
         }
     }
 
-    /**
-     * @brief Performs the reciprocal operation (1/x).
-     */
     public void reciprocal() {
         if (value() == 0) {
-            hasError = true;
-            error = "cannot divide by 0";
-        } else
+            setError("cannot divide by 0");
+        } else {
             setValue(1 / value());
-
+        }
     }
 
-    /**
-     * @brief Performs the square operation (x^2).
-     */
     public void square() {
         setValue(Math.pow(value(), 2));
     }
 
-    /**
-     * @brief Performs the square root operation.
-     */
     public void squareRoot() {
         if (value() < 0) {
-            hasError = true;
-            error = "cannot set square roots values below 0";
-        } else
+            setError("cannot take square root of negative value");
+        } else {
             setValue(Math.sqrt(value()));
-
+        }
     }
 
-
-    /**
-     * @brief Performs the backspace operation (removing the last character).
-     */
     public void delLastValue() {
-        if (isMutable) {
-            if (!value.isEmpty())
-                value = value.substring(0, value.length() - 1);
+        if (isMutable && !value.isEmpty()) {
+            value = value.substring(0, value.length() - 1);
         }
     }
 
-    /**
-     * @brief Stores the current value in memory.
-     */
     public void storeValue() {
-        value();
         if (!hasError) {
-            memory = value;
+            memory = value.isEmpty() ? "0" : value;
         }
     }
 
-    /**
-     * @brief Recalls the value stored in memory.
-     */
     public void recallValue() {
         value = memory;
         isMutable = false;
         clearError();
     }
 
-    /**
-     * @brief Clears any error state.
-     */
-    public void clearErrors() {
-        clearError();
+    public String getValueString() {
+        return hasError ? error : (value.isEmpty() ? "0" : value);
     }
 
+    public String getMemory() {
+        return memory;
+    }
 
-    /**
-     * @brief Retrieves the numeric value from the current string value.
-     *
-     * @return The numeric value parsed from the string, or 0 if empty
-     */
-    private double value() {
+    public double value() {
         try {
-            if (value.isEmpty())
-                return 0;
-
-            return Double.parseDouble(value);
+            return value.isEmpty() ? 0 : Double.parseDouble(value);
         } catch (NumberFormatException e) {
-            hasError = true;
-            error = "Error : format isn't correct " + value;
+            setError("Invalid number format: " + value);
             return 0;
         }
     }
 
-    /**
-     * @brief Sets the current value to the provided numeric value.
-     *
-     * @param x The numeric value to set
-     */
-    private void setValue(double x) {
-        value = Double.toString(x); // Converts the numeric value to string for display
-        isMutable = false; // Indicates that the value is no longer mutable
+    public void setValue(double x) {
+        value = formatValue(x);
+        isMutable = false;
     }
 
-    /**
-     * @brief Retrieves the current value as a string.
-     *
-     * @return The string representation of the current value or error message
-     */
-    public String getValueString() {
-        if (hasError) {
-            return error;
-        } else if (value.isEmpty()) {
-            return "0";
-        }
-        return value;
+    private String formatValue(double x) {
+        return (x == (long) x) ? String.valueOf((long) x) : Double.toString(x);
+    }
+
+    public void setError(String errorMessage) {
+        error = errorMessage;
+        hasError = true;
+    }
+
+    public void setOperand1(double operand1) {
+        this.operand1 = operand1;
+    }
+
+    public double getOperand1() {
+        return operand1;
+    }
+
+    public void setCurrentOperator(Operator operator) {
+        currentOperator = operator;
+    }
+
+    public Operator getCurrentOperator() {
+        return currentOperator;
+    }
+
+    public boolean isWaitingForNextOperand() {
+        return waitingForNextOperand;
+    }
+
+    public void setWaitingForNextOperand(boolean waiting) {
+        waitingForNextOperand = waiting;
     }
 }

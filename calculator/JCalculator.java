@@ -91,7 +91,7 @@ public class JCalculator extends JFrame
     addOperatorButton("C",  4, 1, Color.RED, new Clear());
 
     // Boutons 1-9
-    for (int i = 1; i < 10; i++) 
+    for (int i = 1; i < 10; i++)
       addOperatorButton(String.valueOf(i), (i - 1) % 3, 4 - (i - 1) / 3,
 			Color.BLUE, new Digit(i));
     // Bouton 0
@@ -104,10 +104,10 @@ public class JCalculator extends JFrame
     addOperatorButton(".", 2, 5, Color.BLUE, new AppendDot());
 
     // Operateurs arithmetiques a deux operandes: /, *, -, +
-    addOperatorButton("/", 3, 2, Color.RED, null);
-    addOperatorButton("*", 3, 3, Color.RED, null);
-    addOperatorButton("-", 3, 4, Color.RED, null);
-    addOperatorButton("+", 3, 5, Color.RED, null);
+    addOperatorButton("/", 3, 2, Color.RED, new Division());
+    addOperatorButton("*", 3, 3, Color.RED, new Multiplication());
+    addOperatorButton("-", 3, 4, Color.RED, new Subtraction());
+    addOperatorButton("+", 3, 5, Color.RED, new Addition());
 
     // Operateurs arithmetiques a un operande: 1/x, x^2, Sqrt
     addOperatorButton("1/x", 4, 2, Color.RED, new Reciprocal());

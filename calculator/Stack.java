@@ -73,7 +73,6 @@ public class Stack<T> implements Iterable<T> {
         }
     }
 
-    // Méthode interne pour redimensionner le tableau
     @SuppressWarnings("unchecked")
     private void resize(int newCapacity) {
         elements = Arrays.copyOf(elements, newCapacity);
