@@ -60,6 +60,9 @@ public class Stack<T> implements Iterable<T> {
         return size == 0;
     }
 
+    public int size() { return size;
+    }
+
 
     // Classe interne pour l'itérateur
     private class StackIterator implements Iterator<T> {

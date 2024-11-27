@@ -165,14 +165,6 @@ public class State {
         hasError = true;
     }
 
-    public void setOperand1(double operand1) {
-        this.operand1 = operand1;
-    }
-
-    public double getOperand1() {
-        return operand1;
-    }
-
     public void setCurrentOperator(Operator operator) {
         currentOperator = operator;
     }
@@ -189,6 +181,6 @@ public class State {
         waitingForNextOperand = waiting;
     }
 
-    public boolean hasOperandOnStack() {return !stack.isEmpty();
+    public int stackSize() { return stack.size();
     }
 }

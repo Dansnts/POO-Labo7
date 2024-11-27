@@ -1,188 +1,215 @@
 package calculator;
 
 abstract class Operator {
-  abstract void execute();
+    abstract void execute();
 
-  double compute(double operand1, double operand2) {
-    return 0;
-  }
+    protected void executeBinaryOperation(double operand1, double operand2, State state, BinaryOperation operation) {
+        try {
+            double result = operation.compute(operand1, operand2);
+            state.setValue(result);
+        } catch (ArithmeticException e) {
+            state.setError(e.getMessage());
+        }
+    }
+
+    double compute(double operand1, double operand2) {
+        return 0;
+    }
 }
 
 class Digit extends Operator {
-  int digit;
+    int digit;
 
-  Digit(int digit) {
-    this.digit = digit;
-  }
-
-  @Override
-  void execute() {
-    State state = State.getState();
-
-    if (state.isWaitingForNextOperand()) {
-      state.setValue(0); // Réinitialise l'affichage
-      state.setWaitingForNextOperand(false); // Désactive l'attente
+    Digit(int digit) {
+        this.digit = digit;
     }
 
-    state.appendValue(digit); // Ajoute le chiffre
-  }
+    @Override
+    void execute() {
+        State state = State.getState();
+
+        if (state.isWaitingForNextOperand()) {
+            state.setValue(0); // Réinitialise l'affichage
+            state.setWaitingForNextOperand(false); // Désactive l'attente
+        }
+
+        state.appendValue(digit); // Ajoute le chiffre
+    }
 }
 
 class BackSpace extends Operator {
-  @Override
-  void execute() {
-    State.getState().delLastValue();
-  }
+    @Override
+    void execute() {
+        State.getState().delLastValue();
+    }
 }
 
 class ClearError extends Operator {
-  @Override
-  void execute() {
-    State.getState().clearError();
-  }
+    @Override
+    void execute() {
+        State.getState().clearError();
+    }
 }
 
 class Clear extends Operator {
-  @Override
-  void execute() {
-    State.getState().clear();
-  }
+    @Override
+    void execute() {
+        State.getState().clear();
+    }
 }
 
 class MemoryRecall extends Operator {
-  @Override
-  void execute() {
-    State.getState().recallValue();
-  }
+    @Override
+    void execute() {
+        State.getState().recallValue();
+    }
 }
 
 class MemoryStore extends Operator {
-  @Override
-  void execute() {
-    State.getState().storeValue();
-  }
+    @Override
+    void execute() {
+        State.getState().storeValue();
+    }
 }
 
 class ChangeSign extends Operator {
-  @Override
-  void execute() {
-    State.getState().changeSign();
-  }
+    @Override
+    void execute() {
+        State.getState().changeSign();
+    }
 }
 
 class AppendDot extends Operator {
-  @Override
-  void execute() {
-    State.getState().appendDot();
-  }
+    @Override
+    void execute() {
+        State.getState().appendDot();
+    }
 }
 
-class Reciprocal extends Operator {
-  @Override
-  void execute() {
-    State.getState().reciprocal();
-  }
-}
+abstract class UnaryOperation extends Operator {
+    private final UnaryFunction operation;
 
-class Square extends Operator {
-  @Override
-  void execute() {
-    State state = State.getState();
-    state.square();
-    state.pushToStack(state.value());
-    state.prepareForNextOperand();
-  }
-}
-
-class SquareRoot extends Operator {
-  @Override
-  void execute() {
-    State state = State.getState();
-    state.squareRoot();
-    state.pushToStack(state.value());
-    state.prepareForNextOperand();
-  }
-}
-
-abstract class BinaryOperation extends Operator {
-  @Override
-  void execute() {
-    State state = State.getState();
-
-    // Si une valeur est déjà sur la pile, effectuez immédiatement le calcul
-    if (state.hasOperandOnStack()) {
-      double operand1 = state.popFromStack(); // Récupère l'opérande précédent
-      double operand2 = state.value(); // Utilise la valeur courante
-      try {
-        double result = compute(operand1, operand2);
-        state.setValue(result); // Met à jour la valeur courante
-      } catch (ArithmeticException e) {
-        state.setError(e.getMessage());
-      }
+    UnaryOperation(UnaryFunction operation) {
+        this.operation = operation;
     }
 
-    // Place l'opérateur courant et prépare pour le prochain opérande
-    state.pushToStack(state.value());
-    //state.setCurrentOperator(this);
-    state.prepareForNextOperand();
-  }
+    @Override
+    void execute() {
+        State state = State.getState();
+        if (state.stackSize() < 1) {
+            System.out.println("Not enough operands in the stack.");
+            return;
+        }
 
-  abstract double compute(double operand1, double operand2);
+        double operand = state.popFromStack();
+        try {
+            double result = operation.apply(operand);
+            //state.pushToStack(result);
+            state.setValue(result);
+        } catch (ArithmeticException e) {
+            state.setError(e.getMessage());
+        }
+        state.prepareForNextOperand();
+    }
+
+    @FunctionalInterface
+    interface UnaryFunction {
+        double apply(double operand);
+    }
+}
+
+class Square extends UnaryOperation {
+    Square() {
+        super(operand -> operand * operand);
+    }
+}
+
+class SquareRoot extends UnaryOperation {
+    SquareRoot() {
+        super(operand -> {
+            if (operand < 0) throw new ArithmeticException("Cannot compute square root of a negative number.");
+            return Math.sqrt(operand);
+        });
+    }
+}
+
+class Reciprocal extends UnaryOperation {
+    Reciprocal() {
+        super(operand -> {
+            if (operand == 0) throw new ArithmeticException("Cannot compute reciprocal of zero.");
+            return 1 / operand;
+        });
+    }
 }
 
 
+abstract class BinaryOperation extends Operator {
+    @Override
+    void execute() {
+        State state = State.getState();
+        if (state.stackSize() < 2) {
+            System.out.println("Not enough operands in the stack.");
+            return;
+        }
+        double operand2 = state.popFromStack();
+        double operand1 = state.popFromStack();
+        executeBinaryOperation(operand1, operand2, state, this);
+        state.prepareForNextOperand();
+    }
+
+    abstract double compute(double operand1, double operand2);
+}
+
 class Addition extends BinaryOperation {
-  @Override
-  double compute(double operand1, double operand2) {
-    return operand1 + operand2;
-  }
+    @Override
+    double compute(double operand1, double operand2) {
+        return operand1 + operand2;
+    }
 }
 
 class Subtraction extends BinaryOperation {
-  @Override
-  double compute(double operand1, double operand2) {
-    return operand1 - operand2;
-  }
+    @Override
+    double compute(double operand1, double operand2) {
+        return operand1 - operand2;
+    }
 }
 
 class Multiplication extends BinaryOperation {
-  @Override
-  double compute(double operand1, double operand2) {
-    return operand1 * operand2;
-  }
+    @Override
+    double compute(double operand1, double operand2) {
+        return operand1 * operand2;
+    }
 }
 
 class Division extends BinaryOperation {
-  @Override
-  double compute(double operand1, double operand2) {
-    if (operand2 == 0) {
-      throw new ArithmeticException("Division par zéro");
+    @Override
+    double compute(double operand1, double operand2) {
+        if (operand2 == 0) {
+            throw new ArithmeticException("Illegal division");
+        }
+        return operand1 / operand2;
     }
-    return operand1 / operand2;
-  }
 }
 
 class Enter extends Operator {
-  @Override
-  void execute() {
-    State state = State.getState();
-    double currentValue = state.value();
-    state.pushToStack(currentValue); // Pousse la valeur courante sur la pile
-    state.prepareForNextOperand(); // Prépare l'entrée suivante
-
-    // Évaluation si un opérateur est en attente
-    Operator currentOperator = state.getCurrentOperator();
-    if (currentOperator != null) {
-      double operand1 = state.popFromStack();
-      double operand2 = currentValue;
-      try {
-        double result = currentOperator.compute(operand1, operand2);
-        state.setValue(result);
-      } catch (ArithmeticException e) {
-        state.setError(e.getMessage());
-      }
-      state.setCurrentOperator(null); // Réinitialise l'opérateur courant
-      state.setWaitingForNextOperand(false);
+    @Override
+    void execute() {
+        State state = State.getState();
+        double currentValue = state.value();
+        state.pushToStack(currentValue);
+        state.prepareForNextOperand();
+        Operator currentOperator = state.getCurrentOperator();
+        if (currentOperator != null) {
+            double operand1 = state.popFromStack();
+            double operand2 = currentValue;
+            try {
+                double result = currentOperator.compute(operand1, operand2);
+                state.setValue(result);
+            } catch (ArithmeticException e) {
+                state.setError(e.getMessage());
+            }
+            state.setCurrentOperator(null);
+            state.setWaitingForNextOperand(false);
+        }
     }
-  }
 }
