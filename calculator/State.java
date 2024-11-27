@@ -1,5 +1,7 @@
 package calculator;
 
+
+
 public class State {
 
     private static State instance;
@@ -16,6 +18,28 @@ public class State {
 
     private State() {}
 
+    private Stack<Double> stack = new Stack<>();
+
+    public void pushToStack(double value) {
+        stack.push(value);
+    }
+
+    public double popFromStack() {
+        if (stack.isEmpty()) {
+            setError("Stack is empty");
+            return 0;
+        }
+        return stack.pop();
+    }
+
+    public String stackToString() {
+        return stack.toString();
+    }
+
+    public Object[] stackToArray() {
+        return stack.toArray();
+    }
+
     public static State getState() {
         if (instance == null) {
             instance = new State();
@@ -28,6 +52,23 @@ public class State {
         error = "";
         hasError = false;
         isMutable = true;
+
+    }
+
+    public boolean isStackEmpty(){
+        return stack.isEmpty();
+    }
+
+    public void clear() {
+        value = "";
+        isMutable = true;
+        clearStack();
+    }
+
+    private void clearStack() {
+        while (!stack.isEmpty()) {
+            stack.pop();       // Dépile tous les éléments
+        }
     }
 
     public void appendValue(int x) {

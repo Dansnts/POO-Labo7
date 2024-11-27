@@ -47,7 +47,7 @@ class Clear extends Operator {
 
   @Override
   void execute() {
-    State.getState().clearError();
+    State.getState().clear();
   }
 }
 class MemoryRecall extends Operator {
@@ -147,11 +147,19 @@ class Enter extends Operator {
   @Override
   void execute() {
     State state = State.getState();
-    Operator currentOperator = state.getCurrentOperator();
 
+    // Ajouter la valeur actuelle dans la pile
+    double currentValue = state.value();
+    state.pushToStack(currentValue);
+
+    // Réinitialiser certains états pour préparer le prochain input
+    state.prepareForNextOperand();
+
+    // Si un opérateur binaire est défini, effectuez l'opération
+    Operator currentOperator = state.getCurrentOperator();
     if (currentOperator != null) {
       double operand1 = state.getOperand1();
-      double operand2 = state.value();
+      double operand2 = currentValue; // Utilisez la valeur actuelle comme second opérande
       try {
         double result = currentOperator.compute(operand1, operand2);
         state.setValue(result);
@@ -163,6 +171,7 @@ class Enter extends Operator {
     }
   }
 }
+
 
 
 

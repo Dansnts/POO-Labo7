@@ -37,6 +37,12 @@ public class JCalculator extends JFrame
     //jStack.setListData(...);
     // Modifier une zone de texte, JTextField.setText(string nom)
     // Modifier un composant liste, JList.setListData(Object[] tableau)
+
+    Object[] stackArray = State.getState().stackToArray(); // Récupère les éléments de la pile
+    jStack.setListData(stackArray); // Mettez à jour la JList avec les éléments actuels de la pile
+
+    if(State.getState().isStackEmpty())
+      jStack.setListData(empty);
   }
 
   // Ajout d'un bouton dans l'interface et de l'operation associee,

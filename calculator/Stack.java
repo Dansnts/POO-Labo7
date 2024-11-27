@@ -55,6 +55,12 @@ public class Stack<T> implements Iterable<T> {
         return new StackIterator();
     }
 
+    // Méthode pour vérifier si la pile est vide
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+
     // Classe interne pour l'itérateur
     private class StackIterator implements Iterator<T> {
         private int current = size - 1;

@@ -1,0 +1,77 @@
+\PassOptionsToPackage{svgnames}{xcolor}
+\documentclass[12pt, a4paper, onecolumn]{article} 
+\usepackage[utf8]{inputenc}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{float}
+\usepackage{multicol} % Ajout du paquet multicol pour gérer les colonnes
+\usepackage{lmodern}  % Latin Modern scalable font
+\usepackage[T1]{fontenc}  % Use T1 font encoding
+\usepackage{hyperref}  % Pour rendre la table des matières interactive
+\usepackage{pdfpages}
+
+% Réduire les marges
+\geometry{top=1.5cm, bottom=1.5cm, left=1.5cm, right=1.5cm}
+
+\input{structure.tex} 
+
+%----------------------------------------------------------------------------------------
+%	ARTICLE INFORMATION
+%----------------------------------------------------------------------------------------
+
+\title{Labo7 - POO \\ Calculatrice} 
+
+% Modifiez le style des auteurs
+\newcommand{\largename}[1]{{\Large\textbf{#1}}} % style pour le nom de famille
+
+\author{
+	\authorstyle{Dani Tiago \largename{Faria dos Santos}\\ Antoine \largename{Aubry } \\ \\ Groupe  \textbf{L02GrP}\\ HEIG-VD} % Authors
+}
+
+\makeatletter
+\renewcommand\date[1]{\gdef\@date{\hbox to \linewidth{#1\hss}}}
+\makeatother
+\date{\today}
+
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{Laboratoire 7 - POO}
+\fancyhead[R]{Groupe L03GrD}
+\fancyfoot[R]{Page \thepage}
+\fancyfoot[L]{HEIG-VD | Dani Tiago \textbf{Faria dos Santos} - Antoine \textbf{Aubry }}
+
+
+
+% Ligne sous l'en-tête
+\renewcommand{\headrulewidth}{0.7pt}
+% Pas de ligne sur le pied de page
+\renewcommand{\footrulewidth}{0.5pt}
+
+
+\begin{document}
+	% Utilisation de twocolumn pour le titre
+	\twocolumn[ 
+	\maketitle
+	]
+	
+	% Retour à une seule colonne
+	\onecolumn 
+	
+	% Table des matières
+	\tableofcontents
+	\newpage
+	
+	\section{Hypothèses de travail}
+	
+	\section{Choix de conception}
+	\subsection{Operator}
+	\subsection{State}
+	
+	\section{Modélisation UML}
+	\subsection{Diagramme des classes}
+
+	
+	
+\end{document}
