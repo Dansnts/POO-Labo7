@@ -1,18 +1,23 @@
 @startuml
 
+allowmixing
+
 !include Operator_uml.puml
-!include State_uml.puml
 !include JCalculator_uml.puml
 !include Stack_uml.puml
-entity Légendes #palegreen ##[dashed]green{
-- private
--private method()
-~ package
-~ package method()
-+ public
-+ public method()
+!include State_uml.puml
+
+entity Légendes #palegreen ##[dashed]green {
+  - private
+  - private method()
+  ~ package
+  ~ package method()
+  + public
+  + public method()
 }
-State "0..1"-->Stack : values
-Operators --> State : "manipulates"
+
+State "0..1"--> Stack : values
+
+Operators--> State : "manipulates"
 
 @enduml
